@@ -49,6 +49,8 @@ function App() {
 
         <Button onClick={callStatus} variant="contained">Check Status</Button>
         <Button onClick={callAttach} variant="contained">Attach to Exit Node</Button>
+        <Button onClick={callDisconnect} variant="contained">Disconnect</Button>
+
 
 
       </header>
