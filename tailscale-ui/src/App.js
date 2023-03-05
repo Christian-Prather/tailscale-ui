@@ -12,7 +12,7 @@ const electron = window.require("electron");
 function App() {
 
   const [connectionStatus, setConnectionStatus] = React.useState({connected:false});
-  const [success, setSuccessStatus] = React.useState({connected:"error"})
+  const [success, setSuccessStatus] = React.useState({connected:"error", label:"Disconnected"})
 
 
   function callStatus() {
@@ -42,8 +42,8 @@ function App() {
       <header className="App-header">
         <h1> Tailscale UI</h1>
         <div>
-          <ControlledSwitches connected={connectionStatus.connected} indicator={success.connected} />
-          <TailscaleStatus  indicator={success.connected}/>
+          <ControlledSwitches connected={connectionStatus.connected} indicator={success.connected} label={success.label} />
+          <TailscaleStatus  indicator={success.connected} label={success.label}/>
 
         </div>
 

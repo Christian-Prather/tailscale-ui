@@ -11,11 +11,13 @@ export default function ControlledSwitches(statusTracker, indicator) {
         if (checked) {
             electron.ipcRenderer.send("disconnect", null);
             indicator.connected = "error";
+            indicator.label = "Disconnected"
 
         }
         else {
             electron.ipcRenderer.send("connect", null);
             indicator.connected = "success";
+            indicator.label = "Connected"
 
         }
 

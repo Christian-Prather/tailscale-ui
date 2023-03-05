@@ -10,7 +10,7 @@ export default function TailscaleStatus(props) {
 
     return (
         <Chip
-            label="success"
+            label={props.label}
             color={props.indicator}
         />
     );
