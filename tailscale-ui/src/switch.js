@@ -3,21 +3,24 @@ import Switch from '@mui/material/Switch';
 const electron = window.require("electron");
 
 
-export default function ControlledSwitches(statusTracker, indicator) {
-    const [checked, setChecked] = React.useState(statusTracker.connected);
+export default function ControlledSwitches(props) {
+    const [checked, setChecked] = React.useState(false);
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
         if (checked) {
             electron.ipcRenderer.send("disconnect", null);
-            indicator.connected = "error";
-            indicator.label = "Disconnected"
+            props.callback(false, "Disconnected");
+            // props.connected = "error";
+            // props.label = "Disconnected"
 
         }
         else {
             electron.ipcRenderer.send("connect", null);
-            indicator.connected = "success";
-            indicator.label = "Connected"
+            props.callback(true, "Connected");
+
+            // props.connected = "success";
+            // props.label = "Connected"
 
         }
 
