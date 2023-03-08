@@ -11,16 +11,19 @@ var options = {
 
 ipcMain.on("status", (event, args) => {
   console.log("Recieved request");
-  try {
-    var status = exec("tailscale status");
-    console.log(status.toString());
-    // event.reply("status", status);
-    return;
-  } catch (error) {
-    console.log("Error Occured", error);
-    return;
-  }
-
+  exec("tailscale status --json", (error, stdout, stderr) => {
+    if (error) {
+      console.log("error:", error.message);
+      return;
+    }
+    if (stderr) {
+      console.log("stderr: ${stderr}");
+      return;
+    }
+    var output = JSON.parse(stdout);
+    var status = output.Self.Online;
+    console.log("Connection Status", status);
+  });
 });
 
 
