@@ -4,27 +4,23 @@ const electron = window.require("electron");
 
 
 export default function ControlledSwitches(props) {
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = React.useState(props.connected);
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
         if (checked) {
             electron.ipcRenderer.send("disconnect", null);
             props.callback(false, "Disconnected");
-            // props.connected = "error";
-            // props.label = "Disconnected"
-
         }
         else {
             electron.ipcRenderer.send("connect", null);
             props.callback(true, "Connected");
-
-            // props.connected = "success";
-            // props.label = "Connected"
-
         }
-
     };
+
+    React.useEffect(() => {
+        setChecked(props.connected);
+    }, [props.connected]);
 
     return (
         <Switch

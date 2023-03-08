@@ -1,5 +1,6 @@
 import Chip from '@mui/material/Chip';
 import { useEffect } from 'react';
+
 import React from 'react';
 
 
@@ -12,7 +13,7 @@ export default function TailscaleStatus(props) {
     useEffect(() => {
         setIndicator(props.indicator);
         setLabel(props.label);
-    },[props]);
+    }, [props]);
 
     return (
         <Chip

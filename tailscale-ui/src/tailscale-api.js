@@ -1,3 +1,6 @@
+// Technically in the main process
+
+
 // Electron interface
 const { ipcMain } = require("electron");
 
@@ -23,7 +26,9 @@ ipcMain.on("status", (event, args) => {
     var output = JSON.parse(stdout);
     var status = output.Self.Online;
     console.log("Connection Status", status);
+    event.reply("connection", status);
   });
+  // ipcMain.removeAllListeners("status");
 });
 
 

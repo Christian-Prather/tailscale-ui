@@ -5,19 +5,19 @@ const { menubar } = require('menubar');
 require("../src/tailscale-api.js")
 require("@electron/remote/main").initialize();
 
-const mb = menubar({
-  index: "http://localhost:3000",
-  browserWindow: {
-    width: 250,
-    height: 250,
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true,
-      contextIsolation: false,
-    },
-  }
-}
-);
+// const mb = menubar({
+//   index: "http://localhost:3000",
+//   browserWindow: {
+//     width: 250,
+//     height: 250,
+//     webPreferences: {
+//       nodeIntegration: true,
+//       enableRemoteModule: true,
+//       contextIsolation: false,
+//     },
+//   }
+// }
+// );
 
 let win = null;
 function createWindow() {
@@ -47,7 +47,7 @@ app.on("activate", function () {
 });
 
 
-mb.on('ready', () => {
-  console.log('app is ready');
-  // your app code here
-});
+// mb.on('ready', () => {
+//   console.log('app is ready');
+//   // your app code here
+// });
