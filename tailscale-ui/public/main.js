@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require("electron");
 const { menubar } = require('menubar');
-// const { Menu, Tray } = require('electron');
+const { Menu, Tray, nativeImage } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
@@ -25,19 +25,22 @@ const mb = menubar({
 );
 
 // let tray;
-// function createTray() {
-//   const iconPath = path.join(__dirname, 'assets/icon.png');
-//   tray = new Tray(iconPath);
+// function createTray(win) {
+//   // const icon = nativeImage.createFromPath('../assets/icon.png')
+//   const icon =  path.join(__dirname, '../assets/smiley.png');
 
-//   const contextMenu = Menu.buildFromTemplate([
-//     {
-//       label: 'Quit',
-//       type: 'normal',
-//       click() {
-//         app.quit();
-//       }
-//     }
-//   ]);
+//   tray = new Tray(icon);
+//   tray.BrowserWindow = win;
+
+//   // const contextMenu = Menu.buildFromTemplate([
+//   //   {
+//   //     label: 'Quit',
+//   //     type: 'normal',
+//   //     click() {
+//   //       app.quit();
+//   //     }
+//   //   }
+//   // ]);
 //   tray.setToolTip('Tailscale UI');
 //   tray.setContextMenu(contextMenu);
 // }
@@ -54,11 +57,14 @@ function createWindow() {
     },
   });
 
-  win.loadURL(
-    isDev
-    ? "http://localhost:3000"
-    : 'index.html'
-    );
+  // win.loadURL(
+  //   isDev
+  //   ? "http://localhost:3000"
+  //   : 'index.html'
+  //   );
+
+  win.loadURL("http://localhost:3000");
+
 }
 
 app.on("ready", () => {
@@ -81,3 +87,7 @@ mb.on('ready', () => {
   console.log('app is ready');
   // your app code here
 });
+
+// mb.on('after-create-window', () => {
+//   mb.window.loadURL("http://localhost:3000");
+// });
