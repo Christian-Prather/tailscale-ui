@@ -1,28 +1,29 @@
 const { app, BrowserWindow } = require("electron");
-const { menubar } = require('menubar');
-const { Menu, Tray, nativeImage } = require('electron');
+// const { menubar } = require('menubar');
+// const { Menu, Tray, nativeImage } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
+const TrayGenerator = require('../src/TrayGenerator');
 
 
 require(path.join(__dirname, "../src/tailscale-api.js"));
 require("@electron/remote/main").initialize();
 
-const mb = menubar({
-  index: "http://localhost:3000",
-  icon: path.join(__dirname, '../assets/smiley.png'),
-  tooltip: "Tailscale UI",
-  browserWindow: {
-    width: 250,
-    height: 250,
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true,
-      contextIsolation: false,
-    },
-  }
-}
-);
+// const mb = menubar({
+//   index: "http://localhost:3000",
+//   icon: path.join(__dirname, '../assets/smiley.png'),
+//   tooltip: "Tailscale UI",
+//   browserWindow: {
+//     width: 250,
+//     height: 250,
+//     webPreferences: {
+//       nodeIntegration: true,
+//       enableRemoteModule: true,
+//       contextIsolation: false,
+//     },
+//   }
+// }
+// );
 
 // let tray;
 // function createTray(win) {
@@ -45,11 +46,17 @@ const mb = menubar({
 //   tray.setContextMenu(contextMenu);
 // }
 
+
+
 let win = null;
 function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 600,
+    show: true,
+    frame: false,
+    fullscreenable: false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
@@ -70,6 +77,8 @@ function createWindow() {
 app.on("ready", () => {
   createWindow();
   // createTray();
+  const Tray = new TrayGenerator(win);
+  Tray.createTray();
 });
 
 app.on("window-all-closed", function () {
@@ -82,11 +91,11 @@ app.on("activate", function () {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
-
-mb.on('ready', () => {
-  console.log('app is ready');
-  // your app code here
-});
+// app.dock.hide();
+// mb.on('ready', () => {
+//   console.log('app is ready');
+//   // your app code here
+// });
 
 // mb.on('after-create-window', () => {
 //   mb.window.loadURL("http://localhost:3000");
