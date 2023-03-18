@@ -53,7 +53,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 800,
     height: 600,
-    show: true,
+    show: false,
     frame: false,
     fullscreenable: false,
     resizable: false,
@@ -91,7 +91,7 @@ app.on("activate", function () {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
-// app.dock.hide();
+app.dock.hide();
 // mb.on('ready', () => {
 //   console.log('app is ready');
 //   // your app code here
