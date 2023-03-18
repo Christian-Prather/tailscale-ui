@@ -57,6 +57,7 @@ function createWindow() {
     frame: false,
     fullscreenable: false,
     resizable: false,
+    skipTaskbar: true,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
@@ -91,7 +92,6 @@ app.on("activate", function () {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
-app.dock.isVisible(false);
 // mb.on('ready', () => {
 //   console.log('app is ready');
 //   // your app code here
