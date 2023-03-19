@@ -38,7 +38,11 @@ function App() {
 
   const [connectionTracker, setConnectionStatus] = React.useState({ isConnected: false, label: "Disconnected" })
   const [connectionIndicator, setIndicator] = React.useState({ type: "error" })
-  const [exitNodes, setExitNodes] = React.useState({nodes: []})
+  const [exitNodes, setExitNodes] = React.useState([{
+    label: "10.1.10.1",
+    value: "10.1.10.1"
+  }]
+  );
 
 
   electron.ipcRenderer.on("connection", (e, msg) => {
@@ -62,12 +66,11 @@ function App() {
     console.log("Exit nodes received from api", msg);
     // msg is already an array is this list needed?
     var ips = []
-    for (var node in msg)
-    {
-      console.log("Node: ", node[0]);
-      ips.push(node[0])
+    for (var node in msg) {
+      console.log("Node: ", msg[node]);
+      ips.push({ label: msg[node], value: msg[node] });
     }
-    setExitNodes({nodes: ips});
+    setExitNodes(ips);
     electron.ipcRenderer.removeAllListeners("exit-nodes", this)
   })
 
@@ -97,7 +100,10 @@ function App() {
 
         <Button onClick={callStatus} variant="contained">Check Status</Button>
         <Button onClick={callAttach} variant="contained">Attach to Exit Node</Button>
-        <BasicSelect></BasicSelect>
+
+
+        <BasicSelect nodes={exitNodes}></BasicSelect>
+
         {/* <Button onClick={callDisconnect} variant="contained">Disconnect</Button> */}
 
 
