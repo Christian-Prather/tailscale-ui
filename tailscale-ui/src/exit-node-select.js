@@ -1,38 +1,46 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
-
-import Select from 'react-select';
+import React, { useState, useEffect } from "react";
+// import "./styles.css";
+import Select from "react-select";
 
 export default function BasicSelect(props) {
-    const [ip, setIp] = React.useState('local');
+    console.log("PROPS", props.nodes);
+
+
+    // const [options, setOptions] = useState([{
+    //     label: "10.1.10.1",
+    //     value: "10.1.10.1"
+    // }]);
+
+    const [options, setOptions] = useState(props.nodes);
+    const [ip, setIP] = useState(options[0]);
+
+
+    // const handleInputChange = input => {
+    //     console.log(input);
+    //     setOptions(
+    //         initialOptions.filter(opt => {
+    //             console.log(opt);
+    //             return (
+    //                 opt && opt.value && opt.value.contains && opt.value.contains(input)
+    //             );
+    //         })
+    //     );
+    // };
 
     const handleChange = (event) => {
-        // setIp(event.target.value);
-        setIp(event.target.label);
+        
+        // console.log(event);
+        setIP(event.value);
+        console.log("Exit node selection changed to", event.value);
+
+        props.callback(event.value);
     };
 
-    var ips = [
-        { value: 'one', label: 'One' },
-        { value: 'two', label: 'Two' }
-    ];
+    useEffect(() => {
+        setOptions(props.nodes);
+    }, [props.nodes]);
 
     return (
-        <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={ip}
-            label="Exit Node"
-            onChange={handleChange}
-            options={ips}
-        >
-            {/* <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem> */}
-
-        </Select>
+        <Select options={options} defaultValue={ip} onChange={handleChange} />
     );
 }

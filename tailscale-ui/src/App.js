@@ -27,8 +27,9 @@ function callDisconnect() {
   // alert("Ive been clicked");
 }
 
-function callAttach() {
-  electron.ipcRenderer.send("attach", null);
+function callAttach(ip) {
+  electron.ipcRenderer.send("attach",ip);
+  console.log(ip);
   // alert("Ive been clicked");
 }
 
@@ -38,7 +39,12 @@ function App() {
 
   const [connectionTracker, setConnectionStatus] = React.useState({ isConnected: false, label: "Disconnected" })
   const [connectionIndicator, setIndicator] = React.useState({ type: "error" })
-  const [exitNodes, setExitNodes] = React.useState({nodes: []})
+  const [exitNode, setExitNode] = React.useState({ip: "1.1.1.1"})
+  const [exitNodes, setExitNodes] = React.useState([{
+    label: "10.1.10.1",
+    value: "10.1.10.1"
+  }]
+  );
 
 
   electron.ipcRenderer.on("connection", (e, msg) => {
@@ -62,12 +68,11 @@ function App() {
     console.log("Exit nodes received from api", msg);
     // msg is already an array is this list needed?
     var ips = []
-    for (var node in msg)
-    {
-      console.log("Node: ", node[0]);
-      ips.push(node[0])
+    for (var node in msg) {
+      console.log("Node: ", msg[node]);
+      ips.push({ label: msg[node], value: msg[node] });
     }
-    setExitNodes({nodes: ips});
+    setExitNodes(ips);
     electron.ipcRenderer.removeAllListeners("exit-nodes", this)
   })
 
@@ -85,6 +90,12 @@ function App() {
 
   }
 
+  function updateExitNodeSelection(nodeIP)
+  {
+    console.log("HERE");
+    setExitNode({ip: nodeIP});
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -96,8 +107,14 @@ function App() {
         </div>
 
         <Button onClick={callStatus} variant="contained">Check Status</Button>
-        <Button onClick={callAttach} variant="contained">Attach to Exit Node</Button>
-        <BasicSelect></BasicSelect>
+       
+        <div>
+          <Button onClick={() => callAttach(exitNode.ip)} variant="contained">Attach to Exit Node</Button>
+          <BasicSelect nodes={exitNodes} callback={updateExitNodeSelection}></BasicSelect>
+        </div>
+
+
+
         {/* <Button onClick={callDisconnect} variant="contained">Disconnect</Button> */}
 
 

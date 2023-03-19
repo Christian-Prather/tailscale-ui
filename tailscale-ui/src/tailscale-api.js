@@ -32,13 +32,11 @@ ipcMain.on("status", (event, args) => {
     // console.log("PEERS", peers);
     var exitNodes = [];
 
-    for (var i in peers)
-    {
+    for (var i in peers) {
       var peer = peers[i];
       // console.log("Peer", peer);
-      if (peer.ExitNodeOption)
-      {
-        console.log("Found exit node options", peer.TailscaleIPs[0] )
+      if (peer.ExitNodeOption) {
+        console.log("Found exit node options", peer.TailscaleIPs[0])
         exitNodes.push(peer.TailscaleIPs[0]);
 
       }
@@ -84,8 +82,10 @@ ipcMain.on("disconnect", (event, args) => {
 
 
 ipcMain.on("attach", (event, args) => {
-  console.log("Recieved request");
-  execSync("tailscale status", (error, stdout, stderr) => {
+  console.log("Recieved request", args);
+  var command = "tailscale up --accept-routes=true --exit-node=" + args;
+  console.log("COMMAND", command);
+  sudo.exec(command, options, (error, stdout, stderr) => {
     if (error) {
       console.log("error:", error.message);
       return;
