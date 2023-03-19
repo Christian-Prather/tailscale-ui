@@ -27,6 +27,24 @@ ipcMain.on("status", (event, args) => {
     var status = output.Self.Online;
     console.log("Connection Status", status);
     event.reply("connection", status);
+
+    var peers = output.Peer;
+    // console.log("PEERS", peers);
+    var exitNodes = [];
+
+    for (var i in peers)
+    {
+      var peer = peers[i];
+      // console.log("Peer", peer);
+      if (peer.ExitNodeOption)
+      {
+        console.log("Found exit node options", peer.TailscaleIPs[0] )
+        exitNodes.push(peer.TailscaleIPs[0]);
+
+      }
+    }
+    event.reply("exit-nodes", exitNodes);
+
   });
   // ipcMain.removeAllListeners("status");
 });
