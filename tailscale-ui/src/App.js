@@ -27,8 +27,9 @@ function callDisconnect() {
   // alert("Ive been clicked");
 }
 
-function callAttach() {
-  electron.ipcRenderer.send("attach", null);
+function callAttach(ip) {
+  electron.ipcRenderer.send("attach",ip);
+  console.log(ip);
   // alert("Ive been clicked");
 }
 
@@ -38,6 +39,7 @@ function App() {
 
   const [connectionTracker, setConnectionStatus] = React.useState({ isConnected: false, label: "Disconnected" })
   const [connectionIndicator, setIndicator] = React.useState({ type: "error" })
+  const [exitNode, setExitNode] = React.useState({ip: "1.1.1.1"})
   const [exitNodes, setExitNodes] = React.useState([{
     label: "10.1.10.1",
     value: "10.1.10.1"
@@ -88,6 +90,12 @@ function App() {
 
   }
 
+  function updateExitNodeSelection(nodeIP)
+  {
+    console.log("HERE");
+    setExitNode({ip: nodeIP});
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -99,9 +107,10 @@ function App() {
         </div>
 
         <Button onClick={callStatus} variant="contained">Check Status</Button>
+       
         <div>
-          <Button onClick={callAttach} variant="contained">Attach to Exit Node</Button>
-          <BasicSelect nodes={exitNodes}></BasicSelect>
+          <Button onClick={() => callAttach(exitNode.ip)} variant="contained">Attach to Exit Node</Button>
+          <BasicSelect nodes={exitNodes} callback={updateExitNodeSelection}></BasicSelect>
         </div>
 
 

@@ -12,6 +12,7 @@ export default function BasicSelect(props) {
     // }]);
 
     const [options, setOptions] = useState(props.nodes);
+    const [ip, setIP] = useState(options[0]);
 
 
     // const handleInputChange = input => {
@@ -25,12 +26,21 @@ export default function BasicSelect(props) {
     //         })
     //     );
     // };
-    
+
+    const handleChange = (event) => {
+        
+        // console.log(event);
+        setIP(event.value);
+        console.log("Exit node selection changed to", event.value);
+
+        props.callback(event.value);
+    };
+
     useEffect(() => {
         setOptions(props.nodes);
-    }, [props]);
+    }, [props.nodes]);
 
     return (
-        <Select options={options} />
+        <Select options={options} defaultValue={ip} onChange={handleChange} />
     );
 }
