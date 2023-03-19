@@ -99,10 +99,12 @@ function App() {
         </div>
 
         <Button onClick={callStatus} variant="contained">Check Status</Button>
-        <Button onClick={callAttach} variant="contained">Attach to Exit Node</Button>
+        <div>
+          <Button onClick={callAttach} variant="contained">Attach to Exit Node</Button>
+          <BasicSelect nodes={exitNodes}></BasicSelect>
+        </div>
 
 
-        <BasicSelect nodes={exitNodes}></BasicSelect>
 
         {/* <Button onClick={callDisconnect} variant="contained">Disconnect</Button> */}
 
