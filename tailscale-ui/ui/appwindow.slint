@@ -1,16 +1,29 @@
-import { Button, VerticalBox } from "std-widgets.slint";
+import { Button, VerticalBox, CheckBox } from "std-widgets.slint";
 
 export component AppWindow inherits Window {
     in-out property <int> counter: 42;
+    in-out property <bool> connection-status: false;
     callback request-increase-value();
 
+
     VerticalBox {
+
+        width: 500px;
+        height: 500px;
+
         Text {
             text: "Counter: \{root.counter}";
         }
 
+        CheckBox {
+            width: parent.width;
+            height: 50px;
+            text: "Connected";
+            checked: connection-status;
+        }
+
         Button {
-            text: "Increase Value";
+            text: "Button";
             clicked => {
                 root.request-increase-value();
             }
