@@ -12,4 +12,5 @@ Goals:
 - Allow adding a new network
 - Installable through deb package
 - Open Source 
+- File transfer pop up
 
